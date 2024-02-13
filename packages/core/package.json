@@ -1,0 +1,15 @@
+{
+    "name": "@feather/core",
+    "version": "1.0.0",
+    "description": "A small, minimal and rugged reactive UI framework.",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "Naparajith",
+    "license": "MIT",
+    "dependencies": {
+        "@vue/reactivity": "3.4.19"
+    }
+}
