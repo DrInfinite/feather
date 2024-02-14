@@ -8,7 +8,9 @@ let shouldSchedule = true;
  * @param {() => void} callback - The callback function to run while effect scheduling is disabled.
  * @returns {void}
  */
-export function disableEffectScheduling(callback: () => void): void {
+export function disableEffectScheduling({
+    callback,
+}: { callback: () => void }): void {
     shouldSchedule = false;
 
     callback();
@@ -41,7 +43,9 @@ let raw: unknown;
  * @param {Engine<T, U>} engine - The engine object that contains the reactive, release, effect, and raw properties.
  * @returns {void}
  */
-export function setReactivityEngine<T, U>(engine: Engine<T, U>): void {
+export function setReactivityEngine<T, U>({
+    engine,
+}: { engine: Engine<T, U> }): void {
     reactive = engine.reactive;
     release = engine.release;
 
@@ -49,7 +53,7 @@ export function setReactivityEngine<T, U>(engine: Engine<T, U>): void {
         engine.effect(callback, {
             scheduler: (task: () => void) => {
                 if (shouldSchedule) {
-                    scheduler(task);
+                    scheduler({ callback: task });
                 } else {
                     task();
                 }
@@ -66,9 +70,9 @@ export function setReactivityEngine<T, U>(engine: Engine<T, U>): void {
  * @param {(callback: () => T) => unknown} override - The new effect function.
  * @returns {void}
  */
-export function overrideEffect(
-    override: <T>(callback: () => T) => unknown,
-): void {
+export function overrideEffect({
+    override,
+}: { override: <T>(callback: () => T) => unknown }): void {
     effect = override;
 }
 
@@ -85,9 +89,9 @@ interface Element {
  * @param {Element} element - The element to bind the effect to.
  * @returns {[(callback: () => unknown) => unknown, () => void]} - Returns a tuple containing the wrapped effect function and a cleanup function.
  */
-export function elementBoundEffect(
-    element: Element,
-): [(callback: () => unknown) => unknown, () => void] {
+export function elementBoundEffect({
+    element,
+}: { element: Element }): [(callback: () => unknown) => unknown, () => void] {
     // biome-ignore lint/nursery/noEmptyBlockStatements: <explanation>
     let cleanup = () => {};
 
@@ -139,10 +143,10 @@ export function elementBoundEffect(
  * @param {(value: T, oldValue: T) => void} callback - The callback function to call when the getter's return value changes.
  * @returns {() => void} - Returns a cleanup function that can be called to stop watching the getter function.
  */
-export function watch<T>(
-    getter: () => T,
-    callback: (value: T, oldValue: T) => void,
-): () => void {
+export function watch<T>({
+    getter,
+    callback,
+}: { getter: () => T; callback: (value: T, oldValue: T) => void }): () => void {
     let firstTime = true;
 
     let oldValue: T;

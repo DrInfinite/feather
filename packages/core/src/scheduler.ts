@@ -12,8 +12,8 @@ let lastFlushedIndex = -1;
  */
 
 // biome-ignore lint/complexity/noBannedTypes: <explanation>
-export function scheduler(callback: Function): void {
-    queueJob(callback);
+export function scheduler({ callback }: { callback: Function }): void {
+    queueJob({ job: callback });
 }
 
 /**
@@ -24,7 +24,7 @@ export function scheduler(callback: Function): void {
  */
 
 // biome-ignore lint/complexity/noBannedTypes: <explanation>
-function queueJob(job: Function): void {
+function queueJob({ job }: { job: Function }): void {
     if (!queue.includes(job)) {
         queue.push(job);
     }
@@ -40,7 +40,7 @@ function queueJob(job: Function): void {
  */
 
 // biome-ignore lint/complexity/noBannedTypes: <explanation>
-export function dequeueJob(job: Function): void {
+export function dequeueJob({ job }: { job: Function }): void {
     const index = queue.indexOf(job);
 
     if (index !== -1 && index > lastFlushedIndex) {
