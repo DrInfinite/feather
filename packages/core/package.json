@@ -2,9 +2,13 @@
     "name": "@feather/core",
     "version": "1.0.0",
     "description": "A small, minimal and rugged reactive UI framework.",
-    "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/DrInfinite/feather.git",
+        "directory": "packages/core"
     },
     "keywords": [],
     "author": "Naparajith",

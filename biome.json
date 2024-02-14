@@ -6,7 +6,11 @@
     "linter": {
         "enabled": true,
         "rules": {
-            "all": true
+            "all": true,
+            "complexity": {
+                "noBannedTypes": "warn",
+                "noForEach": "off"
+            }
         }
     },
     "formatter": {
