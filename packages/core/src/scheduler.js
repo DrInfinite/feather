@@ -1,7 +1,6 @@
 let flushPending = false;
 let flushing = false;
-// biome-ignore lint/complexity/noBannedTypes: <explanation>
-const queue: Function[] = [];
+const queue = [];
 let lastFlushedIndex = -1;
 
 /**
@@ -10,10 +9,8 @@ let lastFlushedIndex = -1;
  * @param {Function} callback - The job to be scheduled.
  * @returns {void}
  */
-
-// biome-ignore lint/complexity/noBannedTypes: <explanation>
-export function scheduler({ callback }: { callback: Function }): void {
-    queueJob({ job: callback });
+export function scheduler(callback) {
+    queueJob(callback);
 }
 
 /**
@@ -22,9 +19,7 @@ export function scheduler({ callback }: { callback: Function }): void {
  * @param {Function} job - The job to be added to the queue.
  * @returns {void}
  */
-
-// biome-ignore lint/complexity/noBannedTypes: <explanation>
-function queueJob({ job }: { job: Function }): void {
+function queueJob(job) {
     if (!queue.includes(job)) {
         queue.push(job);
     }
@@ -38,9 +33,7 @@ function queueJob({ job }: { job: Function }): void {
  * @param {Function} job - The job to be removed from the queue.
  * @returns {void}
  */
-
-// biome-ignore lint/complexity/noBannedTypes: <explanation>
-export function dequeueJob({ job }: { job: Function }): void {
+export function dequeueJob(job) {
     const index = queue.indexOf(job);
 
     if (index !== -1 && index > lastFlushedIndex) {
@@ -53,7 +46,7 @@ export function dequeueJob({ job }: { job: Function }): void {
  *
  * @returns {void}
  */
-function queueFlush(): void {
+function queueFlush() {
     if (!(flushing || flushPending)) {
         flushPending = true;
 
@@ -67,7 +60,7 @@ function queueFlush(): void {
  *
  * @returns {void}
  */
-export function flushJobs(): void {
+export function flushJobs() {
     flushPending = false;
     flushing = true;
 

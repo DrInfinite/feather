@@ -1,4 +1,4 @@
-import { scheduler } from "./scheduler";
+import { scheduler } from './scheduler';
 
 let shouldSchedule = true;
 
@@ -8,9 +8,7 @@ let shouldSchedule = true;
  * @param {() => void} callback - The callback function to run while effect scheduling is disabled.
  * @returns {void}
  */
-export function disableEffectScheduling({
-    callback,
-}: { callback: () => void }): void {
+export function disableEffectScheduling(callback) {
     shouldSchedule = false;
 
     callback();
@@ -18,20 +16,10 @@ export function disableEffectScheduling({
     shouldSchedule = true;
 }
 
-interface Engine<T, U> {
-    reactive: T;
-    release: (effectReference: U) => void;
-    effect: (
-        callback: () => T,
-        options: { scheduler: (task: () => void) => void },
-    ) => U;
-    raw: T;
-}
-
-let reactive: unknown;
-let effect: <T>(callback: () => T) => unknown;
-let release: <U>(effectReference: U) => void;
-let raw: unknown;
+let reactive;
+let effect;
+let release;
+let raw;
 
 /**
  * Sets the reactivity engine with the provided engine object.
@@ -43,17 +31,15 @@ let raw: unknown;
  * @param {Engine<T, U>} engine - The engine object that contains the reactive, release, effect, and raw properties.
  * @returns {void}
  */
-export function setReactivityEngine<T, U>({
-    engine,
-}: { engine: Engine<T, U> }): void {
+export function setReactivityEngine(engine) {
     reactive = engine.reactive;
     release = engine.release;
 
-    effect = (callback: () => T) => {
+    effect = (callback) => {
         engine.effect(callback, {
-            scheduler: (task: () => void) => {
+            scheduler: (task) => {
                 if (shouldSchedule) {
-                    scheduler({ callback: task });
+                    scheduler(task);
                 } else {
                     task();
                 }
@@ -70,17 +56,8 @@ export function setReactivityEngine<T, U>({
  * @param {(callback: () => T) => unknown} override - The new effect function.
  * @returns {void}
  */
-export function overrideEffect({
-    override,
-}: { override: <T>(callback: () => T) => unknown }): void {
+export function overrideEffect(override) {
     effect = override;
-}
-
-interface Element {
-    // biome-ignore lint/style/useNamingConvention: <explanation>
-    _f_effects?: Set<unknown>;
-    // biome-ignore lint/style/useNamingConvention: <explanation>
-    _f_runEffects?: () => void;
 }
 
 /**
@@ -89,25 +66,28 @@ interface Element {
  * @param {Element} element - The element to bind the effect to.
  * @returns {[(callback: () => unknown) => unknown, () => void]} - Returns a tuple containing the wrapped effect function and a cleanup function.
  */
-export function elementBoundEffect({
-    element,
-}: { element: Element }): [(callback: () => unknown) => unknown, () => void] {
-    // biome-ignore lint/nursery/noEmptyBlockStatements: <explanation>
+export function elementBoundEffect(element) {
     let cleanup = () => {};
 
-    const wrappedEffect = (callback: () => unknown) => {
+    const wrappedEffect = (callback) => {
         const effectReference = effect(callback);
 
         if (!element._f_effects) {
             element._f_effects = new Set();
 
-            // Livewire depends on element._f_runEffects.
             element._f_runEffects = () => {
-                element._f_effects?.forEach((i) => {
-                    if (i instanceof Function) {
-                        i();
+                // element._f_effects?.forEach((i) => {
+                //     if (i instanceof Function) {
+                //         i();
+                //     }
+                // });
+                if (element._f_effects) {
+                    for (const i of element._f_effects) {
+                        if (i instanceof Function) {
+                            i();
+                        }
                     }
-                });
+                }
             };
         }
 
@@ -143,13 +123,10 @@ export function elementBoundEffect({
  * @param {(value: T, oldValue: T) => void} callback - The callback function to call when the getter's return value changes.
  * @returns {() => void} - Returns a cleanup function that can be called to stop watching the getter function.
  */
-export function watch<T>({
-    getter,
-    callback,
-}: { getter: () => T; callback: (value: T, oldValue: T) => void }): () => void {
+export function watch(getter, callback) {
     let firstTime = true;
 
-    let oldValue: T;
+    let oldValue;
 
     const effectReference = effect(() => {
         const value = getter();

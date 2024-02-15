@@ -8,15 +8,7 @@
  *
  * @returns {void} This function does not return anything
  */
-export function dispatch({
-    el,
-    name,
-    detail = {},
-}: {
-    el: { dispatchEvent: (arg0: CustomEvent<{}>) => void };
-    name: string;
-    detail?: {};
-}): void {
+export function dispatch(el, name, detail = {}) {
     el.dispatchEvent(
         new CustomEvent(name, {
             detail,

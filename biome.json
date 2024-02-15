@@ -6,15 +6,12 @@
     "linter": {
         "enabled": true,
         "rules": {
-            "all": true,
-            "complexity": {
-                "noBannedTypes": "warn",
-                "noForEach": "off"
-            }
+            "all": true
         }
     },
     "formatter": {
         "enabled": true,
+        "formatWithErrors": false,
         "indentStyle": "space",
         "indentWidth": 4,
         "lineWidth": 80
@@ -23,7 +20,11 @@
         "formatter": {
             "semicolons": "always",
             "arrowParentheses": "always",
+            "trailingComma": "all",
+            "quoteStyle": "single",
+            "quoteProperties": "asNeeded",
             "enabled": true,
+            "bracketSpacing": true,
             "bracketSameLine": true
         }
     }

@@ -1,11 +1,11 @@
-import { RuleConfigSeverity, type UserConfig } from "@commitlint/types";
+const { RuleConfigSeverity } = require('@commitlint/types');
 
-const Configuration: UserConfig = {
+const Configuration = {
     /*
      * Resolve and load @commitlint/config-conventional from node_modules.
      * Referenced packages must be installed
      */
-    extends: ["@commitlint/config-conventional"],
+    extends: ['@commitlint/config-conventional'],
     /*
      * Resolve and load conventional-changelog-atom from node_modules.
      * Referenced packages must be installed
@@ -20,12 +20,12 @@ const Configuration: UserConfig = {
      * Any rules defined here will override rules from @commitlint/config-conventional
      */
     rules: {
-        "type-enum": [RuleConfigSeverity.Disabled, "never", ["foo"]],
+        'type-enum': [RuleConfigSeverity.Disabled, 'never', ['foo']],
     },
     /*
      * Functions that return true if commitlint should ignore the given message.
      */
-    ignores: [(commit) => commit === ""],
+    ignores: [(commit) => commit === ''],
     /*
      * Whether commitlint uses the default ignore rules.
      */
@@ -34,7 +34,7 @@ const Configuration: UserConfig = {
      * Custom URL to show upon failure
      */
     helpUrl:
-        "https://github.com/conventional-changelog/commitlint/#what-is-commitlint",
+        'https://github.com/conventional-changelog/commitlint/#what-is-commitlint',
     /*
      * Custom prompt configs
      */
@@ -42,7 +42,7 @@ const Configuration: UserConfig = {
         messages: {},
         questions: {
             type: {
-                description: "please input type:",
+                description: 'please input type:',
             },
         },
     },

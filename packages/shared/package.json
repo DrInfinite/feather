@@ -1,19 +1,16 @@
 {
-    "name": "@feather/core",
+    "name": "@feather/shared",
     "version": "1.0.0",
-    "description": "A small, minimal and rugged reactive UI framework.",
+    "description": "Shared functions for the Feather framework",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
         "type": "git",
         "url": "https://github.com/DrInfinite/feather.git",
-        "directory": "packages/core"
+        "directory": "packages/shared"
     },
     "keywords": [],
     "author": "Naparajith",
-    "license": "GPL-3.0-only",
-    "dependencies": {
-        "@feather/shared": "workspace:*"
-    }
+    "license": "GPL-3.0-only"
 }

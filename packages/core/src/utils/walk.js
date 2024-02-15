@@ -1,5 +1,3 @@
-import type { CleanupElement } from "../types/utils";
-
 /**
  * Recursively walks through an element and its children in the DOM, applying a callback function to each element.
  *
@@ -10,13 +8,12 @@ import type { CleanupElement } from "../types/utils";
  *
  * @returns {void} This function does not return anything.
  */
-export function walk(
-    el: Element,
-    callback: (el: CleanupElement, skip: () => void) => void,
-): void {
-    if (typeof ShadowRoot === "function" && el instanceof ShadowRoot) {
-        Array.from(el.children).forEach((el) => walk(el, callback));
-
+export function walk(el, callback) {
+    if (typeof ShadowRoot === 'function' && el instanceof ShadowRoot) {
+        // Array.from(el.children).forEach((el) => walk(el, callback));
+        for (const el of Array.from(el.children)) {
+            walk(el, callback);
+        }
         return;
     }
 
